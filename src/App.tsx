@@ -1,19 +1,22 @@
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter as Router, Switch, Route, RouteComponentProps } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-const HomeScreenPage: React.FC<RouteComponentProps> = lazy(() => import("./templates/homeScreen/HomeScreenPage"));
+import Loading from "atoms/Loading";
+// import "./tailwind.css";
+import "./global.scss";
+
+const HomeScreenPage = lazy(() => import("templates/homeScreen/HomeScreenPage"));
+const SignUpScreen = lazy(() => import("templates/Auth/SignUp"));
 
 type RouterProps = {};
-const Fallback: React.FC<{}> = () => {
-    return <div></div>;
-};
 
 const RootRouter: React.FC<RouterProps> = React.memo(() => {
     return (
-        <Suspense fallback={<Fallback />}>
+        <Suspense fallback={<Loading />}>
             <Router>
                 <Switch>
-                    <Route path='/' component={HomeScreenPage} />
+                    <Route path='/' exact component={HomeScreenPage} />
+                    <Route path='/sign-up' exact component={SignUpScreen} />
                 </Switch>
             </Router>
         </Suspense>

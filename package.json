@@ -19,11 +19,15 @@
         "@types/node-sass": "^4.11.0",
         "@types/react": "^16.9.21",
         "@types/react-dom": "^16.9.5",
-        "@types/react-router-dom": "^5.1.3"
+        "@types/react-router-dom": "^5.1.3",
+        "autoprefixer": "^9.7.4",
+        "postcss-cli": "^7.1.0",
+        "tailwindcss": "^1.2.0"
     },
     "scripts": {
-        "start": "react-scripts start",
+        "start": "yarn build:style && react-scripts start",
         "build": "react-scripts build",
+        "build:style": "tailwind build src/_tailwind.css -o src/tailwind.css",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
