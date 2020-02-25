@@ -1,4 +1,5 @@
 import React, { ChangeEvent, Ref, MutableRefObject } from "react";
+import MaterialInput from "./materialInput/MaterialInput";
 
 export type searchbarProps = {
     search: (query: string) => void;
@@ -18,7 +19,7 @@ const Searchbar: React.FC<searchbarProps> = ({ search }) => {
 
         timeoutRef.current = window.setTimeout(() => {
             setIsTyping(false);
-        }, 350);
+        }, 500);
     };
 
     React.useEffect(() => {
@@ -28,13 +29,7 @@ const Searchbar: React.FC<searchbarProps> = ({ search }) => {
     }, [query, isTyping, search]);
 
     return (
-        <input
-            className='border-0 border-b border-gray-500 placeholder-gray-300 w-full focus:border-blue-500 focus:placeholder-blue-300 outline-none transition-colors duration-200 text-blue-500'
-            autoFocus
-            placeholder='Search ...'
-            value={query}
-            onChange={onChange}
-        />
+        <MaterialInput autoFocus label='Search' className='w-full' pattern='salam' value={query} onChange={onChange} />
     );
 };
 export default Searchbar;
