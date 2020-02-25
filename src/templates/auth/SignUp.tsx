@@ -6,34 +6,33 @@ import CustomForm from "organisms/CustomForm";
 import { customFormProps } from "organisms/CustomForm";
 import Axios from "api/Axios";
 import { registerApi } from "../../api/authApi";
-import { getJWTToken } from "./authActions";
+import { connect, MapStateToProps } from "react-redux";
+import { RootStateType } from "../../app/rootReducer";
+import { signUp } from "./authSlice";
 
-type formProps = {
+export type signUpFormProps = {
     username: string;
     password: string;
 };
 
-const initialProps: formProps = {
+const initialProps: signUpFormProps = {
     username: "",
     password: "",
 };
 
 type signUpType = {};
-const SignUp: React.FC<signUpType> = React.memo(() => {
-    const onSubmit: customFormProps<formProps>["onSubmit"] = (values, { setSubmitting }) => {
+const SignUp: React.FC<signUpType | any> = React.memo(({ loginUser, signUp }) => {
+    const onSubmit: customFormProps<signUpFormProps>["onSubmit"] = (values, { setSubmitting }) => {
         setSubmitting(true);
 
-        Axios.post(registerApi, values)
-            .then(() => {
-                getJWTToken(values).then(res => {
-                    console.log("access", res.data.access);
-                    console.log("refresh", res.data.refresh);
-                });
-            })
-            .finally(() => setSubmitting(false));
+        signUp(values);
     };
 
-    const validate: FormikConfig<formProps>["validate"] = values => {
+    React.useEffect(() => {
+        console.log(loginUser);
+    }, [loginUser]);
+
+    const validate: FormikConfig<signUpFormProps>["validate"] = values => {
         const errors: FormikErrors<typeof values> = {};
         if (!values.username) {
             errors.username = "This filled is required";
@@ -48,7 +47,7 @@ const SignUp: React.FC<signUpType> = React.memo(() => {
 
     return (
         <div className='w-screen h-screen flex justify-center'>
-            <CustomForm<formProps>
+            <CustomForm<signUpFormProps>
                 onSubmit={onSubmit}
                 types={formFieldTypes}
                 validate={validate}
@@ -57,7 +56,14 @@ const SignUp: React.FC<signUpType> = React.memo(() => {
         </div>
     );
 });
-export default SignUp;
+
+const mapStateToProps: MapStateToProps<any, signUpType, RootStateType> = state => {
+    return { loginUser: state.loginUser };
+};
+const mapDispatchToProps = {
+    signUp,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
 
 // {
 // let [username, setUsername] = React.useState("");

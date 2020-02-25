@@ -1,6 +1,7 @@
 import Axios from "api/Axios";
 import { getJWTTokenApi, refreshJWTTokenApi } from "api/authApi";
 import { AxiosResponse } from "axios";
+import { setHeaderBearerAuthorization } from "../../api/Axios";
 
 type getJWTTokenType = {
     username: string;
@@ -12,12 +13,12 @@ type getJWTTokenResponseType = {
     refresh: string;
 };
 
-export const getJWTToken: (request: getJWTTokenType) => Promise<AxiosResponse<getJWTTokenResponseType>> = request => {
+const getJWTToken: (request: getJWTTokenType) => Promise<AxiosResponse<getJWTTokenResponseType>> = request => {
     return Axios.post<getJWTTokenResponseType>(getJWTTokenApi, request).then(response => {
-        console.log(response);
-
         localStorage.setItem("token", response.data.access);
         localStorage.setItem("refreshToken", response.data.refresh);
+
+        setHeaderBearerAuthorization(response.data.access);
 
         setInterval(refreshToken, 180000);
 
@@ -33,7 +34,7 @@ type refreshJWTTokenResponseType = {
     access: string;
 };
 
-export const refreshToken: () => void = () => {
+const refreshToken: () => void = () => {
     if (localStorage.getItem("refreshToken")) {
         const request: refreshJWTTokenType = {
             refresh: localStorage.getItem("refreshToken") as refreshJWTTokenType["refresh"],
@@ -42,7 +43,16 @@ export const refreshToken: () => void = () => {
         Axios.post<refreshJWTTokenResponseType>(refreshJWTTokenApi, request).then(response => {
             localStorage.setItem("token", response.data.access);
 
+            setHeaderBearerAuthorization(response.data.access);
+
             return response;
         });
     }
 };
+
+export type authActionsTypes = {
+    getJWTToken: typeof getJWTToken;
+    refreshToken: typeof refreshToken;
+};
+
+export const authActions: authActionsTypes = { getJWTToken, refreshToken };
