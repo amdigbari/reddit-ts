@@ -25,7 +25,7 @@ const signIn: React.FC<signInType | any> = React.memo(({ loginUser, signIn }) =>
     const onSubmit: customFormProps<signInFormProps>["onSubmit"] = (values, { setSubmitting }) => {
         setSubmitting(true);
 
-        signIn(values);
+        signIn(values).finally(() => setSubmitting(false));
     };
 
     React.useEffect(() => {

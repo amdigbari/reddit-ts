@@ -43,12 +43,25 @@ function CustomForm<T>({ validate = () => {}, types = {}, ...props }: customForm
         </div>
     );
 
-    const renderForm: (props: FormikProps<T>) => React.ReactNode = ({ isSubmitting, setSubmitting, values }) => {
+    const renderForm: (props: FormikProps<T>) => React.ReactNode = ({ isSubmitting, values, setFieldValue }) => {
         return (
             <Form className='container h-screen flex justify-center items-center flex-col'>
-                {Object.keys(values).map((key, index) => (
-                    <CustomField name={key} key={key} type={types[key] || "text"} autoFocus={!index} />
-                ))}
+                {Object.keys(values).map((key, index) =>
+                    key === "image" ? (
+                        <input
+                            name={key}
+                            type={types[key]}
+                            accept='image/*'
+                            onChange={event => {
+                                event.target.files &&
+                                    event.target.files.length &&
+                                    setFieldValue("image", event.target.files[0]);
+                            }}
+                        />
+                    ) : (
+                        <CustomField name={key} key={key} type={types[key] || "text"} autoFocus={!index} />
+                    ),
+                )}
 
                 <button
                     type='submit'

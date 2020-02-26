@@ -12,8 +12,8 @@ export const removeAuthorization: () => void = () => {
     delete Axios.defaults.headers.common["Authorization"];
 };
 
-if (localStorage.getItem("token")) {
-    setHeaderBearerAuthorization(localStorage.getItem("token") as string);
-}
+// if (localStorage.getItem("token")) {
+//     setHeaderBearerAuthorization(localStorage.getItem("token") as string);
+// }
 
 export default Axios;

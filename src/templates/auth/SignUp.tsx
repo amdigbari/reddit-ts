@@ -9,6 +9,7 @@ import { registerApi } from "../../api/authApi";
 import { connect, MapStateToProps } from "react-redux";
 import { RootStateType } from "../../app/rootReducer";
 import { signUp } from "./authSlice";
+import UpdateProfile from "templates/updateProfile/UpdateProfile";
 
 export type signUpFormProps = {
     username: string;
@@ -21,16 +22,22 @@ const initialProps: signUpFormProps = {
 };
 
 type signUpType = {};
-const SignUp: React.FC<signUpType | any> = React.memo(({ loginUser, signUp }) => {
+const SignUp: React.FC<signUpType | any> = React.memo(({ signUp }) => {
+    let [showEditProfile, setShowEditProfile] = React.useState(false);
+
+    let [user, setUser] = React.useState(initialProps);
+
     const onSubmit: customFormProps<signUpFormProps>["onSubmit"] = (values, { setSubmitting }) => {
         setSubmitting(true);
 
-        signUp(values);
-    };
+        signUp(values)
+            .then(() => {
+                setUser(values);
 
-    React.useEffect(() => {
-        console.log(loginUser);
-    }, [loginUser]);
+                setShowEditProfile(true);
+            })
+            .finally(() => setSubmitting(false));
+    };
 
     const validate: FormikConfig<signUpFormProps>["validate"] = values => {
         const errors: FormikErrors<typeof values> = {};
@@ -45,7 +52,9 @@ const SignUp: React.FC<signUpType | any> = React.memo(({ loginUser, signUp }) =>
 
     const formFieldTypes = { password: "password" };
 
-    return (
+    return showEditProfile ? (
+        <UpdateProfile user={user} />
+    ) : (
         <div className='w-screen h-screen flex justify-center'>
             <CustomForm<signUpFormProps>
                 onSubmit={onSubmit}
@@ -57,13 +66,13 @@ const SignUp: React.FC<signUpType | any> = React.memo(({ loginUser, signUp }) =>
     );
 });
 
-const mapStateToProps: MapStateToProps<any, signUpType, RootStateType> = state => {
-    return { loginUser: state.loginUser };
-};
+// const mapStateToProps: MapStateToProps<any, signUpType, RootStateType> = state => {
+//     return { loginUser: state.loginUser };
+// };
 const mapDispatchToProps = {
     signUp,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(undefined, mapDispatchToProps)(SignUp);
 
 // {
 // let [username, setUsername] = React.useState("");

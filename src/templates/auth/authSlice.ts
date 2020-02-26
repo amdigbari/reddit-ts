@@ -23,9 +23,6 @@ export const { registerUser, unregisterUser } = authSlice.actions;
 export const signUp: (request: signUpFormProps) => AppThunk = request => (dispatch, getState, extraActions) => {
     return Axios.post(registerApi, request).then(response => {
         extraActions.getJWTToken(request).then(res => {
-            console.log("access", res.data.access);
-            console.log("refresh", res.data.refresh);
-
             dispatch(registerUser(request));
         });
     });
@@ -33,9 +30,6 @@ export const signUp: (request: signUpFormProps) => AppThunk = request => (dispat
 
 export const login: (request: signInFormProps) => AppThunk = request => (dispatch, getState, extraActions) => {
     return extraActions.getJWTToken(request).then(res => {
-        console.log("access", res.data.access);
-        console.log("refresh", res.data.refresh);
-
         dispatch(registerUser(request));
     });
 };
