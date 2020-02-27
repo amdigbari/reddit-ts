@@ -20,7 +20,7 @@ export type updateProfileFormProps = {
     image?: Blob;
 };
 
-const initialProps: updateProfileFormProps = {
+export const initialProps: updateProfileFormProps = {
     firstName: "",
     lastName: "",
     email: "",
@@ -30,10 +30,14 @@ const initialProps: updateProfileFormProps = {
     image: undefined,
 };
 
-type updateProfileType = {
-    user: { username: string; password: string };
+export const formFieldTypes: { [key: string]: string } = {
+    phone: "tel",
+    email: "email",
+    image: "file",
 };
-const UpdateProfile: React.FC<updateProfileType> = React.memo(({ user }) => {
+
+type updateProfileType = {};
+const UpdateProfile: React.FC<updateProfileType> = React.memo(() => {
     let history = useHistory();
 
     const onSubmit: customFormProps<updateProfileFormProps>["onSubmit"] = (values, { setSubmitting }) => {
@@ -73,8 +77,6 @@ const UpdateProfile: React.FC<updateProfileType> = React.memo(({ user }) => {
         }
         return errors;
     };
-
-    const formFieldTypes = { phone: "tel", email: "email", image: "file" };
 
     return (
         <div className='w-screen h-screen flex justify-center'>

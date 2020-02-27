@@ -26,11 +26,9 @@ export type customFormProps<T> = {
 // };
 
 function CustomForm<T>({ validate = () => {}, types = {}, ...props }: customFormProps<T>): React.ReactElement {
-    const CustomField: React.FC<{ name: string; type: string; autoFocus?: boolean }> = ({
-        name,
-        type,
-        autoFocus = false,
-    }) => (
+    const CustomField: React.FC<{ name: string; type: string; autoFocus?: boolean } & InputHTMLAttributes<
+        HTMLInputElement
+    >> = ({ name, type, autoFocus = false, ...props }) => (
         <div className='w-4/5 md:w-2/5'>
             <Field
                 type={type}
@@ -38,8 +36,10 @@ function CustomForm<T>({ validate = () => {}, types = {}, ...props }: customForm
                 className='mt-8 w-full h-10 pl-5 rounded-full bg-gray-200 border-2 border-gray-300 outline-none text-blue-700 placeholder-blue-300'
                 placeholder={name}
                 autoFocus={autoFocus}
+                data-testid={name}
+                {...props}
             />
-            <ErrorMessage name={name} component='span' className='pl-4 text-sm text-red-500 w-full text-left' />
+            <ErrorMessage name={name} data-testid={`${name}-error`} component='span' className='pl-4 text-sm text-red-500 w-full text-left' />
         </div>
     );
 
@@ -52,6 +52,8 @@ function CustomForm<T>({ validate = () => {}, types = {}, ...props }: customForm
                             name={key}
                             type={types[key]}
                             accept='image/*'
+                            key={key}
+                            data-testid={key}
                             onChange={event => {
                                 event.target.files &&
                                     event.target.files.length &&
@@ -59,7 +61,12 @@ function CustomForm<T>({ validate = () => {}, types = {}, ...props }: customForm
                             }}
                         />
                     ) : (
-                        <CustomField name={key} key={key} type={types[key] || "text"} autoFocus={!index} />
+                        <CustomField
+                            name={key}
+                            key={key}
+                            type={types[key] || "text"}
+                            autoFocus={!index}
+                        />
                     ),
                 )}
 
@@ -74,7 +81,9 @@ function CustomForm<T>({ validate = () => {}, types = {}, ...props }: customForm
     };
 
     return (
-        <Formik initialValues={props.initialProps} onSubmit={props.onSubmit} validate={validate} render={renderForm} />
+        <Formik initialValues={props.initialProps} onSubmit={props.onSubmit} validate={validate}>
+            {renderForm}
+        </Formik>
     );
 }
 

@@ -53,7 +53,7 @@ const SignUp: React.FC<signUpType | any> = React.memo(({ signUp }) => {
     const formFieldTypes = { password: "password" };
 
     return showEditProfile ? (
-        <UpdateProfile user={user} />
+        <UpdateProfile />
     ) : (
         <div className='w-screen h-screen flex justify-center'>
             <CustomForm<signUpFormProps>
