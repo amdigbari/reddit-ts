@@ -4,6 +4,7 @@ import { registerApi } from "../../api/authApi";
 import { signUpFormProps } from "./SignUp";
 import { AppThunk } from "../../app/store";
 import { signInFormProps } from "./SignIn";
+import { AxiosRequestConfig } from "axios";
 
 type initialStateType = {};
 
@@ -20,8 +21,12 @@ const authSlice = createSlice({
 
 export const { registerUser, unregisterUser } = authSlice.actions;
 
-export const signUp: (request: signUpFormProps) => AppThunk = request => (dispatch, getState, extraActions) => {
-    return Axios.post(registerApi, request).then(response => {
+export const signUp: (request: signUpFormProps, config?: AxiosRequestConfig) => AppThunk = (request, config = {}) => (
+    dispatch,
+    getState,
+    extraActions,
+) => {
+    return Axios.post(registerApi, request, config).then(response => {
         extraActions.getJWTToken(request).then(res => {
             dispatch(registerUser(request));
         });

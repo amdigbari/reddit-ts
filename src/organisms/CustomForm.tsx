@@ -1,5 +1,6 @@
 import React, { InputHTMLAttributes } from "react";
 import { Form, FormikErrors, Field, ErrorMessage, Formik, FormikProps, FormikConfig } from "formik";
+import MaterialInput from "atoms/materialInput/MaterialInput";
 
 export type customFormProps<T> = {
     onSubmit: FormikConfig<T>["onSubmit"];
@@ -26,24 +27,42 @@ export type customFormProps<T> = {
 // };
 
 function CustomForm<T>({ validate = () => {}, types = {}, ...props }: customFormProps<T>): React.ReactElement {
-    const CustomField: React.FC<{ name: string; type: string; autoFocus?: boolean } & InputHTMLAttributes<
-        HTMLInputElement
-    >> = ({ name, type, autoFocus = false, ...props }) => (
+    const CustomField: React.FC<{
+        name: string;
+        type: string;
+        autoFocus?: boolean;
+        value: string;
+        onChange: InputHTMLAttributes<HTMLInputElement>["onChange"];
+    } & InputHTMLAttributes<HTMLInputElement>> = ({ name, type, autoFocus = false, value, onChange, ...props }) => (
         <div className='w-4/5 md:w-2/5'>
-            <Field
-                type={type}
+            <MaterialInput
+                label={name}
                 name={name}
-                className='mt-8 w-full h-10 pl-5 rounded-full bg-gray-200 border-2 border-gray-300 outline-none text-blue-700 placeholder-blue-300'
-                placeholder={name}
+                type={type}
+                className='mt-8 w-full h-10 text-blue-700'
+                variant='outline'
                 autoFocus={autoFocus}
                 data-testid={name}
+                value={value}
+                onChange={onChange}
                 {...props}
             />
-            <ErrorMessage name={name} data-testid={`${name}-error`} component='span' className='pl-4 text-sm text-red-500 w-full text-left' />
+            <ErrorMessage
+                name={name}
+                data-testid={`${name}-error`}
+                component='span'
+                className='pl-4 text-sm text-red-500 w-full text-left'
+            />
         </div>
     );
 
-    const renderForm: (props: FormikProps<T>) => React.ReactNode = ({ isSubmitting, values, setFieldValue }) => {
+    //TODO: fix this & { [propsName: string]: any }
+    const renderForm: (props: FormikProps<T & { [propsName: string]: any }>) => React.ReactNode = ({
+        isSubmitting,
+        values,
+        setFieldValue,
+        handleChange,
+    }) => {
         return (
             <Form className='container h-screen flex justify-center items-center flex-col'>
                 {Object.keys(values).map((key, index) =>
@@ -62,6 +81,8 @@ function CustomForm<T>({ validate = () => {}, types = {}, ...props }: customForm
                         />
                     ) : (
                         <CustomField
+                            value={values[key]}
+                            onChange={handleChange}
                             name={key}
                             key={key}
                             type={types[key] || "text"}

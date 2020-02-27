@@ -6,11 +6,11 @@
     }
 
     input {
-        background-color: transparent;
+        background-color: transparent !important;
         border: none;
         outline: none;
         border-bottom: 1px solid #aaa;
-        color: #777;
+        color: #777 !important;
 
         &.outline {
             border: 1px solid #aaa;
@@ -19,7 +19,7 @@
 
             & ~ .label {
                 left: 8px;
-                bottom: 20%;
+                transform: translateY(-50%);
             }
         }
 
@@ -28,8 +28,7 @@
 
             & ~ .label {
                 color: cyan;
-                bottom: 75%;
-                transform: scale(0.9) translateX(-3px);
+                transform: scale(0.9) translate(-3px, -150%);
             }
 
             &.outline ~ .label {
@@ -37,13 +36,11 @@
             }
         }
 
-        &:invalid {
+        &:not(.empty):invalid {
             border-color: red;
 
             & ~ .label {
                 color: red;
-                bottom: 75%;
-                transform: scale(0.9) translateX(-3px);
             }
 
             &.outline ~ .label {
@@ -57,16 +54,16 @@
             }
 
             & ~ .label {
-                bottom: 75%;
-                transform: scale(0.9) translateX(-3px);
+                transform: scale(0.9) translate(-3px, -150%);
             }
         }
     }
 
     .label {
         position: absolute;
-        bottom: 5%;
+        bottom: 0;
         left: 0;
+        transform: translateY(-5px);
         color: #aaa;
         font-size: 14px;
         z-index: -1;

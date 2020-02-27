@@ -4,12 +4,13 @@ import { FormikConfig, FormikErrors } from "formik";
 import TextInput from "molecules/TextInput";
 import CustomForm from "organisms/CustomForm";
 import { customFormProps } from "organisms/CustomForm";
-import Axios from "api/Axios";
+import axios, { CancelTokenSource } from "axios";
 import { registerApi } from "../../api/authApi";
 import { connect, MapStateToProps } from "react-redux";
 import { RootStateType } from "../../app/rootReducer";
 import { signUp } from "./authSlice";
 import UpdateProfile from "templates/updateProfile/UpdateProfile";
+import { AxiosRequestConfig } from "axios";
 
 export type signUpFormProps = {
     username: string;
@@ -23,6 +24,8 @@ const initialProps: signUpFormProps = {
 
 type signUpType = {};
 const SignUp: React.FC<signUpType | any> = React.memo(({ signUp }) => {
+    let cancelToken = React.useRef(axios.CancelToken.source());
+
     let [showEditProfile, setShowEditProfile] = React.useState(false);
 
     let [user, setUser] = React.useState(initialProps);
@@ -30,7 +33,11 @@ const SignUp: React.FC<signUpType | any> = React.memo(({ signUp }) => {
     const onSubmit: customFormProps<signUpFormProps>["onSubmit"] = (values, { setSubmitting }) => {
         setSubmitting(true);
 
-        signUp(values)
+        const config: AxiosRequestConfig = {
+            cancelToken: cancelToken.current.token,
+        };
+
+        signUp(values, config)
             .then(() => {
                 setUser(values);
 
@@ -38,6 +45,14 @@ const SignUp: React.FC<signUpType | any> = React.memo(({ signUp }) => {
             })
             .finally(() => setSubmitting(false));
     };
+
+    React.useEffect(() => {
+        let cancel: CancelTokenSource = cancelToken.current;
+
+        return () => {
+            cancel.cancel("Signup Cancelled");
+        };
+    }, []);
 
     const validate: FormikConfig<signUpFormProps>["validate"] = values => {
         const errors: FormikErrors<typeof values> = {};
