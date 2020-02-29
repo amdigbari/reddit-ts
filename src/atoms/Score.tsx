@@ -1,21 +1,17 @@
-import React, { DOMAttributes, PropsWithChildren, ReactElement } from "react";
+import React, { DOMAttributes } from "react";
 import { ThumbsDown, ThumbsUp } from "react-feather";
 
 import { feedBackType } from "templates/post/postActions";
 
-export type setScoreType<R> = (score: number) => R;
+export type setScoreType = (score: number) => void;
 
-type scoreProps<R> = {
+type scoreProps = {
     userScore: number;
     feedBacks: feedBackType;
-    setScore: setScoreType<R>;
+    setScore: setScoreType;
 };
 
-function Score<R>({
-    userScore: initialUserScore,
-    feedBacks: initialFeedBacks,
-    setScore,
-}: PropsWithChildren<scoreProps<R>>): ReactElement {
+const Score: React.FC<scoreProps> = ({ userScore: initialUserScore, feedBacks: initialFeedBacks, setScore }) => {
     let [userScore, setUserScore] = React.useState<number>(initialUserScore);
 
     let initialScoreWithoutUserScore = React.useMemo(
@@ -57,5 +53,5 @@ function Score<R>({
             />
         </div>
     );
-}
+};
 export default Score;

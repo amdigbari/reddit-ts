@@ -10,14 +10,9 @@ type postCardProps = {
     link?: boolean;
 };
 
-type postCardType = {
-    [propName: string]: any;
-};
-
 const PostCard: React.FC<postCardProps> = ({ post, link = false }) => {
-    const setScore: setScoreType<postCardType> = score => {
+    const setScore: setScoreType = score => {
         console.log(score);
-        return {};
     };
 
     return (
@@ -25,7 +20,7 @@ const PostCard: React.FC<postCardProps> = ({ post, link = false }) => {
             {/* <div> TODO: header => channel </div> */}
             <CaptionContent post={post} link={link} />
 
-            <ScoreAndDate<postCardType>
+            <ScoreAndDate
                 score={post.like}
                 feedbacks={post.no_feedbacks}
                 createDate={post.create_time}
