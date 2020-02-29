@@ -7,13 +7,15 @@ import { channelType } from "templates/channel/channelActions";
 import { commentType } from "templates/comment/commentActions";
 import { getPostApi } from "api/postApi";
 
+export type pkType = string | number;
+
 export type feedBackType = {
     likes: number;
     dislikes: number;
 };
 
 export type postType = {
-    id: number;
+    id: pkType;
     text: string;
     author: profileType;
     create_time: string;
@@ -35,7 +37,7 @@ export const searchApi: (query: string) => Promise<AxiosResponse<searchResponseT
     return Axios.get<searchResponseType>(`${socialsApi}search/?q=${query}`);
 };
 
-export const getPostById: (pk: string | number) => Promise<AxiosResponse<postType>> = pk => {
+export const getPostById: (pk: pkType) => Promise<AxiosResponse<postType>> = pk => {
     return Axios.get<Array<postType>>(getPostApi(pk)).then(res => ({ ...res, data: res.data[0] }));
 };
 

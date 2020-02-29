@@ -5,6 +5,7 @@ import Loading from "atoms/Loading";
 // import "./tailwind.css";
 import "../global.scss";
 import { checkLogin } from "templates/auth/authActions";
+import { postPath } from "api/postApi";
 
 const HomeScreenPage = lazy(() => import("templates/homeScreen/HomeScreenPage"));
 const SignUpScreen = lazy(() => import("templates/auth/SignUp"));
@@ -21,16 +22,18 @@ const RootRouter: React.FC<RouterProps> = React.memo(() => {
     }, []);
 
     return (
-        <Suspense fallback={<Loading />}>
-            <Router>
-                <Switch>
-                    <Route path='/' exact component={HomeScreenPage} />
-                    <Route path='/sign-up/' exact component={SignUpScreen} />
-                    <Route path='/sign-in/' exact component={SignInScreen} />
-                    <Route path='/posts/:pk/' exact component={PostScreen} />
-                </Switch>
-            </Router>
-        </Suspense>
+        <div className='w-screen h-screen bg-gray-100'>
+            <Suspense fallback={<Loading />}>
+                <Router>
+                    <Switch>
+                        <Route path='/' exact component={HomeScreenPage} />
+                        <Route path='/sign-up/' exact component={SignUpScreen} />
+                        <Route path='/sign-in/' exact component={SignInScreen} />
+                        <Route path={postPath()} exact component={PostScreen} />
+                    </Switch>
+                </Router>
+            </Suspense>
+        </div>
     );
 });
 export default RootRouter;

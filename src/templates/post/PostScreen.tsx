@@ -19,6 +19,10 @@ const PostScreen: React.FC<postScreenProps> = () => {
         postPk && getPostById(postPk).then(res => setPost(res.data));
     }, [postPk]);
 
-    return post ? <PostCard post={post} /> : null;
+    return (
+        <div className='w-full h-screen flex items-center justify-center'>
+            <div className='container h-screen flex flex-col items-center pt-6'>{post && <PostCard post={post} />}</div>
+        </div>
+    );
 };
 export default PostScreen;
