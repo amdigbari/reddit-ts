@@ -1,9 +1,9 @@
 import React from "react";
 
-import { postType } from "templates/post/postActions";
+import { postType, scorePost } from "templates/post/postActions";
 import CaptionContent from "molecules/CaptionContent";
 import ScoreAndDate from "molecules/ScoreAndDate";
-import { setScoreType } from "../../atoms/Score";
+import { setScoreType } from "atoms/Score";
 
 type postCardProps = {
     post: postType;
@@ -12,12 +12,12 @@ type postCardProps = {
 
 const PostCard: React.FC<postCardProps> = ({ post, link = false }) => {
     const setScore: setScoreType = score => {
-        console.log(score);
+        scorePost(post.id, score);
     };
 
     return (
         <div className='w-full max-w-2xl border border-gray-300 rounded bg-white px-6 pt-6'>
-            {/* <div> TODO: header => channel </div> */}
+            {/* <div> TODO: header => channel and author </div> */}
             <CaptionContent post={post} link={link} />
 
             <ScoreAndDate

@@ -5,13 +5,17 @@ import Axios from "api/Axios";
 import { profileType } from "templates/profile/profileActions";
 import { channelType } from "templates/channel/channelActions";
 import { commentType } from "templates/comment/commentActions";
-import { getPostApi } from "api/postApi";
+import { getPostApi, scorePostApi } from "api/postApi";
 
 export type pkType = string | number;
 
 export type feedBackType = {
     likes: number;
     dislikes: number;
+};
+
+export type scoreResponse = {
+    status: "NEGATIVE" | "POSITIVE" | null;
 };
 
 export type postType = {
@@ -39,6 +43,10 @@ export const searchApi: (query: string) => Promise<AxiosResponse<searchResponseT
 
 export const getPostById: (pk: pkType) => Promise<AxiosResponse<postType>> = pk => {
     return Axios.get<Array<postType>>(getPostApi(pk)).then(res => ({ ...res, data: res.data[0] }));
+};
+
+export const scorePost: (pk: pkType, score: number) => Promise<AxiosResponse<scoreResponse>> = (pk, score) => {
+    return Axios.put(scorePostApi(score), { id: pk });
 };
 
 // export type postsActionsTypes = { searchApi: typeof searchApi };

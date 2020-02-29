@@ -2,6 +2,7 @@ import React, { DOMAttributes } from "react";
 import { ThumbsDown, ThumbsUp } from "react-feather";
 
 import { feedBackType } from "templates/post/postActions";
+import { useDepsChanged } from "../app/customHooks";
 
 export type setScoreType = (score: number) => void;
 
@@ -24,7 +25,7 @@ const Score: React.FC<scoreProps> = ({ userScore: initialUserScore, feedBacks: i
         initialScoreWithoutUserScore,
     ]);
 
-    React.useEffect(() => {
+    useDepsChanged(() => {
         setScore(userScore);
     }, [userScore, setScore]);
 
