@@ -7,9 +7,7 @@ import Searchbar from "atoms/Searchbar";
 import { searchbarProps } from "../../atoms/Searchbar";
 import { searchApi } from "../post/postActions";
 
-type mapStateType = {};
-
-const HomeScreenPage: React.FC<mapStateType & RouteComponentProps> = React.memo(() => {
+const HomeScreenPage: React.FC<RouteComponentProps> = React.memo(() => {
     const search: searchbarProps["search"] = query => {
         searchApi(query).then(res => console.log(res.data));
     };
