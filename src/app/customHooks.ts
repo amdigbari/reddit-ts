@@ -1,4 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback, Dispatch } from "react";
+
+export const useToggle: (initialState: boolean | (() => boolean)) => [boolean, Dispatch<void>] = initialState => {
+    const [state, setState] = useState<boolean>(initialState);
+
+    const toggleState = useCallback(() => setState(s => !s), []);
+    return [state, toggleState];
+};
 
 export const useDepsChanged: typeof useEffect = (effect, deps) => {
     let isFirstRender = useRef(true);

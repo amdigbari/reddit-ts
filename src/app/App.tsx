@@ -6,18 +6,18 @@ import Loading from "atoms/Loading";
 import "../global.scss";
 import { checkLogin } from "templates/auth/authActions";
 import { postPath } from "api/postApi";
+import { channelPath } from "api/channelApi";
 
 const HomeScreenPage = lazy(() => import("templates/homeScreen/HomeScreenPage"));
 const SignUpScreen = lazy(() => import("templates/auth/SignUp"));
 const SignInScreen = lazy(() => import("templates/auth/SignIn"));
 const PostScreen = lazy(() => import("templates/post/PostScreen"));
+const ChannelScreen = lazy(() => import("templates/channel/ChannelScreen"));
 
 type RouterProps = {};
 
 const RootRouter: React.FC<RouterProps> = React.memo(() => {
     React.useEffect(() => {
-        console.log("change route");
-
         checkLogin();
     }, []);
 
@@ -30,6 +30,7 @@ const RootRouter: React.FC<RouterProps> = React.memo(() => {
                         <Route path='/sign-up/' exact component={SignUpScreen} />
                         <Route path='/sign-in/' exact component={SignInScreen} />
                         <Route path={postPath()} exact component={PostScreen} />
+                        <Route path={channelPath()} exact component={ChannelScreen} />
                     </Switch>
                 </Router>
             </Suspense>
