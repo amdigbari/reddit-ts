@@ -22,7 +22,7 @@ const RootRouter: React.FC<RouterProps> = React.memo(() => {
     }, []);
 
     return (
-        <div className='w-screen h-screen bg-gray-100'>
+        <div className='w-full h-screen bg-gray-100'>
             <Suspense fallback={<Loading />}>
                 <Router>
                     <Switch>

@@ -22,7 +22,7 @@ const ChannelCard: React.FC<channelCardProps> = ({ channel, link = false, classN
     };
 
     return (
-        <div className={`w-full max-w-2xl flex items-center justify-between ${className}`}>
+        <div className={`w-full flex items-center justify-between ${className}`}>
             <AvatarAndName src={channel.avatar} name={channel.name} link={link} path={channelPath(channel.id)} />
 
             <FollowButton follow={follow} changeFollow={changeFollow} />
