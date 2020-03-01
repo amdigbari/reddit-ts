@@ -42,17 +42,9 @@
             & ~ .label {
                 color: red;
             }
-
-            &.outline ~ .label {
-                z-index: 0;
-            }
         }
 
         &:not(.empty) {
-            &.outline ~ .label {
-                z-index: 0;
-            }
-
             & ~ .label {
                 transform: scale(0.9) translate(-3px, -150%);
             }
@@ -66,7 +58,6 @@
         transform: translateY(-5px);
         color: #aaa;
         font-size: 14px;
-        z-index: -1;
         background-color: white;
         padding: 0 2px;
     }

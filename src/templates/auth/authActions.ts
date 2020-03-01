@@ -1,7 +1,9 @@
-import Axios from "api/Axios";
-import { getJWTTokenApi, refreshJWTTokenApi } from "api/authApi";
+import Axios, { removeAuthorization } from "api/Axios";
+import { getJWTTokenApi, refreshJWTTokenApi, registerApi } from "api/authApi";
 import { AxiosResponse } from "axios";
 import { setHeaderBearerAuthorization } from "../../api/Axios";
+import { profileType } from "templates/profile/profileActions";
+import { AppThunk } from "app/store";
 
 type getJWTTokenType = {
     username: string;
@@ -56,3 +58,16 @@ export type authActionsTypes = {
 };
 
 export const authActions: authActionsTypes = { getJWTToken, refreshToken };
+
+export const checkLogin: () => void = () => {
+    if (localStorage.getItem("token")) {
+        Axios.get<profileType>(registerApi)
+            .then(res => {
+                refreshToken();
+                return res;
+            })
+            .catch(() => {
+                removeAuthorization();
+            });
+    }
+};
