@@ -6,6 +6,7 @@ import ScoreAndDate from "molecules/ScoreAndDate";
 import { setScoreType } from "atoms/Score";
 import ChannelCard from "organisms/channelCard/ChannelCard";
 import Divider from "atoms/Divider";
+import ProfileCard from "organisms/profileCard/ProfileCard";
 
 type postCardProps = {
     post: postType;
@@ -22,6 +23,8 @@ const PostCard: React.FC<postCardProps> = ({ post, link = false, className = "" 
         <div className={`w-full max-w-2xl border border-gray-300 rounded bg-white px-6 pt-6 ${className}`}>
             {post.channel && (
                 <>
+                    <ProfileCard user={post.author} />
+                    <Divider />
                     <ChannelCard channel={post.channel} link />
                     <Divider />
                 </>

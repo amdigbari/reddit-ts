@@ -36,7 +36,7 @@ type refreshJWTTokenResponseType = {
     access: string;
 };
 
-const refreshToken: () => void = () => {
+export const refreshToken: () => void = () => {
     if (localStorage.getItem("refreshToken")) {
         const request: refreshJWTTokenType = {
             refresh: localStorage.getItem("refreshToken") as refreshJWTTokenType["refresh"],
@@ -58,16 +58,3 @@ export type authActionsTypes = {
 };
 
 export const authActions: authActionsTypes = { getJWTToken, refreshToken };
-
-export const checkLogin: () => void = () => {
-    if (localStorage.getItem("token")) {
-        Axios.get<profileType>(registerApi)
-            .then(res => {
-                refreshToken();
-                return res;
-            })
-            .catch(() => {
-                removeAuthorization();
-            });
-    }
-};

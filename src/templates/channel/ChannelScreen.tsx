@@ -34,7 +34,7 @@ const ChannelScreen: React.FC<channelScreenProps> = () => {
                             <Divider />
 
                             {channel.rules.length && (
-                                <TitleAndDescriptionSection title='rules' description={channel.rules} />
+                                <TitleAndDescriptionSection title='Rules' description={channel.rules} />
                             )}
 
                             <Divider />
