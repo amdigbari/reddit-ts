@@ -79,7 +79,7 @@ const UpdateProfile: React.FC<updateProfileType> = React.memo(() => {
     };
 
     return (
-        <div className='w-screen h-screen flex justify-center'>
+        <div className='w-full h-screen flex justify-center'>
             <CustomForm<updateProfileFormProps>
                 onSubmit={onSubmit}
                 types={formFieldTypes}

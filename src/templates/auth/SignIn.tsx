@@ -46,7 +46,7 @@ const signIn: React.FC<signInType | any> = React.memo(({ loginUser, signIn }) =>
     const formFieldTypes = { password: "password" };
 
     return (
-        <div className='w-screen h-screen flex justify-center'>
+        <div className='w-full h-screen flex justify-center'>
             <CustomForm<signInFormProps>
                 onSubmit={onSubmit}
                 types={formFieldTypes}

@@ -25,7 +25,7 @@ export type postType = {
     create_time: string;
     like: number;
     no_feedbacks: feedBackType;
-    image?: string;
+    image?: string | null;
     channel?: channelType;
     comments?: Array<commentType>;
     no_comments?: number;
