@@ -1,17 +1,19 @@
-import React, { ChangeEvent, Ref, MutableRefObject } from "react";
-import MaterialInput from "./materialInput/MaterialInput";
+import React, { ChangeEvent, MutableRefObject } from "react";
+import MaterialInput from "atoms/materialInput/MaterialInput";
 
-export type searchbarProps = {
+export type searchBarProps = {
     search: (query: string) => void;
 };
 
-const Searchbar: React.FC<searchbarProps> = ({ search }) => {
+const SearchBar: React.FC<searchBarProps> = ({ search }) => {
     const timeoutRef: MutableRefObject<number | undefined> = React.useRef();
 
     let [query, setQuery] = React.useState("");
     let [isTyping, setIsTyping] = React.useState(false);
 
-    const onChange: (event: ChangeEvent<HTMLInputElement>) => void = ({ target: { value: _value } }) => {
+    const onChange: (event: ChangeEvent<HTMLInputElement>) => void = ({
+        target: { value: _value }
+    }) => {
         setQuery(_value);
 
         timeoutRef.current && clearTimeout(timeoutRef.current);
@@ -29,7 +31,13 @@ const Searchbar: React.FC<searchbarProps> = ({ search }) => {
     }, [query, isTyping, search]);
 
     return (
-        <MaterialInput autoFocus label='Search' className='w-full' pattern='salam' value={query} onChange={onChange} />
+        <MaterialInput
+            autoFocus
+            label="Search"
+            className="w-full"
+            value={query}
+            onChange={onChange}
+        />
     );
 };
-export default Searchbar;
+export default SearchBar;

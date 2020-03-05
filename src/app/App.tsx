@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Loading from "atoms/Loading";
+import Loading from "atoms/loading/Loading";
 // import "./tailwind.css";
 import "../global.scss";
 

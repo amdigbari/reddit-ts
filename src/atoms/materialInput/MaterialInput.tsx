@@ -4,7 +4,10 @@ import styles from "./styles.module.scss";
 
 type variant = "default" | "outline";
 
-type materialInputProps = { label: string; variant?: variant } & InputHTMLAttributes<HTMLInputElement>;
+type materialInputProps = {
+    label: string;
+    variant?: variant;
+} & InputHTMLAttributes<HTMLInputElement>;
 
 const MaterialInput: React.FC<materialInputProps> = ({
     label,
@@ -15,7 +18,9 @@ const MaterialInput: React.FC<materialInputProps> = ({
 }) => {
     let [empty, setEmpty] = React.useState(true);
 
-    const keyUpHandler: (event: React.KeyboardEvent<HTMLInputElement>) => void = event => {
+    const keyUpHandler: (
+        event: React.KeyboardEvent<HTMLInputElement>
+    ) => void = event => {
         setEmpty(!event.currentTarget.value.length);
         onKeyUp(event);
     };
@@ -24,7 +29,9 @@ const MaterialInput: React.FC<materialInputProps> = ({
         <div className={styles["material-input"]}>
             <input
                 {...props}
-                className={`${empty ? styles["empty"] : ""} ${className} ${styles[variant]}`}
+                className={`${empty ? styles["empty"] : ""} ${className} ${
+                    styles[variant]
+                }`}
                 onKeyUp={keyUpHandler}
             />
             <span className={styles["label"]}>{label}</span>

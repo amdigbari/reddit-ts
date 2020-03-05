@@ -20,6 +20,12 @@
         "typescript": "^3.7.5"
     },
     "devDependencies": {
+        "@storybook/addon-actions": "^5.3.14",
+        "@storybook/addon-knobs": "^5.3.14",
+        "@storybook/addon-links": "^5.3.14",
+        "@storybook/addons": "^5.3.14",
+        "@storybook/preset-create-react-app": "^1.5.2",
+        "@storybook/react": "^5.3.14",
         "@types/jest": "^25.1.3",
         "@types/node": "^13.7.4",
         "@types/node-sass": "^4.11.0",
@@ -28,6 +34,7 @@
         "@types/react-router-dom": "^5.1.3",
         "autoprefixer": "^9.7.4",
         "postcss-cli": "^7.1.0",
+        "storybook-addon-jsx": "^7.1.14",
         "tailwindcss": "^1.2.0"
     },
     "scripts": {
@@ -35,7 +42,9 @@
         "build": "react-scripts build",
         "build:style": "tailwind build src/_tailwind.css -o src/tailwind.css",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "storybook": "yarn build:style && start-storybook -p 9009 -s public",
+        "build-storybook": "build-storybook -s public"
     },
     "eslintConfig": {
         "extends": "react-app"

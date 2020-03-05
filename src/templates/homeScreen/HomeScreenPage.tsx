@@ -3,14 +3,14 @@ import React from "react";
 import logo from "atoms/assets/logo.svg";
 
 import { RouteComponentProps } from "react-router-dom";
-import Searchbar from "atoms/Searchbar";
-import { searchbarProps } from "../../atoms/Searchbar";
+import SearchBar from "atoms/searchbar/Searchbar";
+import { searchBarProps } from "../../atoms/searchbar/Searchbar";
 import { searchApi } from "../post/postActions";
 
 type mapStateType = {};
 
 const HomeScreenPage: React.FC<mapStateType & RouteComponentProps> = React.memo(() => {
-    const search: searchbarProps["search"] = query => {
+    const search: searchBarProps["search"] = query => {
         searchApi(query).then(res => console.log(res.data));
     };
 
@@ -21,7 +21,7 @@ const HomeScreenPage: React.FC<mapStateType & RouteComponentProps> = React.memo(
 
                 <div className='flex-1 px-4 flex items-end justify-center'>
                     <div className='relative w-4/5 md:w-3/5 max-w-lg'>
-                        <Searchbar search={search} />
+                        <SearchBar search={search} />
                     </div>
                 </div>
 
